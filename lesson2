@@ -1,0 +1,147 @@
+/*
+ * This Lesson aims to how to merge two branches and sove merge conflict.
+ * You may also learn how to jump to other commits and how to read diff message.
+ */
+
+Add more content:
+	$ echo "git checkout" >> test
+
+Commit the content as second commit:
+	$ git commit -a -m "the second commit"
+
+Now we have two commits:
+	$ git log
+
+	=====================================================
+	commit 3037a6d2448e7d7c6f6f753aeec5d75fbeb33f90
+	Author: Chia-Wei Chang <rglyab@gmail.com>
+	Date:   Fri Jul 18 23:06:23 2014 +0800
+	
+    	the second commit
+
+	commit 1ab409c98a8f58474f5eb37b3217ae952d80a8e9
+	Author: Chia-Wei Chang <rglyab@gmail.com>
+	Date:   Fri Jul 18 22:37:46 2014 +0800
+
+    	commit title
+    
+    	commit message
+	=====================================================
+
+Show the content of the second commit:
+	$ git show HEAD
+	=====================================================
+	commit 3037a6d2448e7d7c6f6f753aeec5d75fbeb33f90
+	Author: Chia-Wei Chang <rglyab@gmail.com>
+	Date:   Fri Jul 18 23:06:23 2014 +0800
+
+    	the second commit
+
+	diff --git a/test b/test
+	index 17ab86f..1998d92 100644
+	--- a/test
+	+++ b/test
+	@@ -1 +1,2 @@
+ 	git_init
+	+git checkout
+	=====================================================
+
+Move the current HEAD to the previous commit and create new branch named TEST:
+	$ git checkout -b TEST HEAD~1
+	=====================================================
+	Note: checking out 'HEAD~1'.
+
+	You are in 'detached HEAD' state. You can look around, make experimental
+	changes and commit them, and you can discard any commits you make in this
+	state without impacting any branches by performing another checkout.
+
+	If you want to create a new branch to retain commits you create, you may
+	do so (now or later) by using -b with the checkout command again. Example:
+
+  	git checkout -b new_branch_name
+
+	HEAD is now at 1ab409c... commit title
+	=====================================================
+
+Now we are at first commit:
+	$ git show HEAD
+	=====================================================
+	commit 1ab409c98a8f58474f5eb37b3217ae952d80a8e9
+	Author: Chia-Wei Chang <rglyab@gmail.com>
+	Date:   Fri Jul 18 22:37:46 2014 +0800
+
+    	commit title
+    
+    	commit message
+
+	diff --git a/test b/test
+	new file mode 100644
+	index 0000000..17ab86f
+	--- /dev/null
+	+++ b/test
+	@@ -0,0 +1 @@
+	+git_init
+	=====================================================
+
+Next, create a new node:
+	$ echo "git merge" >> test
+	$ git commit -a -m "another second commit"
+
+
+Merge TEST with master, there is a merge conflict:
+	$ merge master
+	=====================================================
+	Auto-merging test
+	CONFLICT (content): Merge conflict in test
+	Automatic merge failed; fix conflicts and then commit the result.
+	=====================================================
+
+Check which part is conflict:
+	$ git diff
+	=====================================================
+	diff --cc test
+	index 2d5e5c4,1998d92..0000000
+	--- a/test
+	+++ b/test
+	@@@ -1,2 -1,2 +1,6 @@@
+  	git_init
+	++<<<<<<< HEAD
+ 	+git merge
+	++=======
+	+ git checkout
+	++>>>>>>> master
+	=====================================================
+
+Use Editor to modify content:
+	$ vim test
+	=====================================================
+	> git_init
+	> git checkout
+	> git merge
+	=====================================================
+
+Currently, you are at MERGE_HEAD, this is a special node, you may notice there are multiple '+' sign in diff message.
+	$ git diff
+	=====================================================
+	index 2d5e5c4,1998d92..0000000
+	--- a/test
+	+++ b/test
+	@@@ -1,2 -1,2 +1,3 @@@
+  	git_init
+	+ git checkout
+ 	+git merge
+	=====================================================
+
+The merge conflict is solved, commit it! (use default commit message)
+	git commit -a
+
+Show your commit sequence, oneline stands only title, graph stands line graph:
+	git log --oneline --graph
+	=====================================================
+	*   befce16 Merge branch 'master' into TEST
+	|\  
+	| * 3037a6d the second commit
+	* | 51cec78 another second commit
+	|/  
+	* 1ab409c commit title
+	=====================================================
