@@ -145,3 +145,15 @@ Show your commit sequence, oneline stands only title, graph stands line graph:
 	|/  
 	* 1ab409c commit title
 	=====================================================
+
+Jump to master branch and merge TEST, the child of master:
+No new node will be created, because fast-forward is applied on master.
+	$ git checkout master
+	$ git merge TEST
+	=====================================================
+	Updating 3037a6d..befce16
+	Fast-forward
+ 	test |    1 +
+ 	1 file changed, 1 insertion(+)
+	=====================================================
+
