@@ -1,0 +1,39 @@
+/*
+ * I hope this lesson can teach you what to fix if doing something unwantted.
+ */
+
+Add content and stage it:
+	$ echo "git reset" >> test
+	$ git add test
+	$ git status
+
+Revert the changed content in workspace, since content is staged,
+nothing in workspace is reverted:
+	$ git checkout test
+	$ git status
+
+Clear the staged content:
+	$ git reset test
+	$ git status
+
+Clear the chagned part:
+	$ git checkout test
+	$ git status
+
+Add a new commit:
+	$ echo "git reset" >> test
+	$ git commit -a -m "third commit"
+
+Remove the commit, but keeps its content:
+	$ git reset HEAD~1
+	$ git log
+
+The changes of your third commit still keeps in workspace:
+	$ git diff
+
+Commit it again! For our next experiment:
+	$ git commit -a -m "third commit"
+
+Remove the commit, even change your workspace:
+	$ git reset --hard HEAD~1
+	$ git diff

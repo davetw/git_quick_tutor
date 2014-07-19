@@ -1,0 +1,29 @@
+/*
+ * This lesson aims how to interact with other repository.
+ * Normally using pull and push.
+ */
+
+Clone a bare repository:
+	$ cd /NEW/DIR1
+	$ git clone --bare /YOUR/ORIGIN/REPOSITORY
+
+Create new repository and pull from remote:
+	$ cd /NEW/DIR2
+	$ git init
+	$ git remote add origin /NEW/DIR1
+	$ git pull origin master
+	$ git log --oneline
+
+Create new commit in DIR2:
+	$ echo "git push" >> test
+	$ git commit -a -m "fourth commit"
+	$ git log --oneline
+
+Push it back to remote(DIR1):
+	$ git push origin master
+
+Go check your origin:
+	cd /YOUR/ORIGIN/REPOSITORY
+	git remote add origin /NEW/DIR1
+	git pull origin master
+	git log --oneline
