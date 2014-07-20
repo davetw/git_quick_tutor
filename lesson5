@@ -3,10 +3,104 @@
  *  Use it with caution, this is a destructive operation.
  */
 
+Create two commits on TEST branch:
+	$ git checkout TEST
+	$ echo "git rebase -i" >> test
+	$ git commit -a -m "lesson 5 commit"
+	$ echo "git rebase" >> test
+	$ git commit -a -m "lesson 5-2 commit"
+	$ git log --graph --oneline TEST master
+	=====================================================
+	* cdf1743 lesson 5-2 commit
+	* c1baef0 lesson 5 commit
+	| * 2ad1a4e lesson 4 commit : for push
+	| * 4180469 lesson 3-4 commit
+	| * 825dff6 lesson 3-3 commit
+	| * 357a232 lesson 3-2 commit
+	|/  
+	*   db3f64c Merge branch 'master' into TEST
+	|\  
+	| * aef9a2b the second commit
+	* | 2969a41 another second commit
+	|/  
+	* 246b60f commit title
+	=====================================================
 
-$ echo "git rebase -i" >> test
-$ git commit -a -m "fifth commit"
-$ echo "git rebase" >> test
-$ git commit -a -m "sixth commit"
+Currently you are at TEST, move your last two commits from TEST to master
+Here occurs merge conflicts:
+	$ git rebase master
+	=====================================================
+	First, rewinding head to replay your work on top of it...
+	Applying: lesson 5 commit
+	Using index info to reconstruct a base tree...
+	Falling back to patching base and 3-way merge...
+	Auto-merging test
+	CONFLICT (content): Merge conflict in test
+	Failed to merge in the changes.
+	Patch failed at 0001 lesson 5 commit
 
-$ git rebase -i HEAD~2..HEAD
+	When you have resolved this problem run "git rebase --continue".
+	If you would prefer to skip this patch, instead run "git rebase --skip".
+	To check out the original branch and stop rebasing run "git rebase --abort".
+	=====================================================
+
+You should manually edit test to fix conflict:
+	$ vim test
+	=====================================================
+	git_init
+	git checkout
+	git merge
+	<<<<<<< HEAD
+	git push
+	=======
+	git rebase -i
+	>>>>>>> lesson 5 commit
+	=====================================================
+	git_init
+	git checkout
+	git merge
+	git push
+	git rebase -i
+	=====================================================
+
+After solving conflict, inform git rebase to continue. Now TEST is base
+on master:
+	$ git add test
+	$ git rebase --continue
+	$ git log --oneline --graph TEST
+	=====================================================
+	* 2db47bb lesson 5-2 commit
+	* d49e9cb lesson 5 commit
+	* 2ad1a4e lesson 4 commit : for push
+	* 4180469 lesson 3-4 commit
+	* 825dff6 lesson 3-3 commit
+	* 357a232 lesson 3-2 commit
+	*   db3f64c Merge branch 'master' into TEST
+	|\  
+	| * aef9a2b the second commit
+	* | 2969a41 another second commit
+	|/  
+	* 246b60f commit title
+	=====================================================
+
+Rebase provide handy interface to operate with. Operating is from top to down:
+	$ git rebase -i HEAD~2
+	=====================================================
+	pick d49e9cb lesson 5 commit
+	pick 2db47bb lesson 5-2 commit
+
+	# Rebase 2ad1a4e..2db47bb onto 2ad1a4e
+	#
+	# Commands:
+	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
+	#  e, edit = use commit, but stop for amending
+	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
+	#
+	# If you remove a line here THAT COMMIT WILL BE LOST.
+	# However, if you remove everything, the rebase will be aborted.
+	=====================================================
