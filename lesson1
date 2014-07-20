@@ -1,7 +1,11 @@
 /*
  * In the first lesson, I want to introduct some basic operations.
- * You may learn init, add, commit, status.
+ * You may learn config, init, add, commit, status.
  */
+
+Before any operation, you must set up your user identity.
+	$ git config --global user.name "<YOUR NAME>"
+	$ git config --global user.email "<YOUR MAIL>"
 
 To create new repository:
 	$ git init
