@@ -1,0 +1,12 @@
+/*
+ *  This lesson aims to introduce user how to use rebase to rearrange commits.
+ *  Use it with caution, this is a destructive operation.
+ */
+
+
+$ echo "git rebase -i" >> test
+$ git commit -a -m "fifth commit"
+$ echo "git rebase" >> test
+$ git commit -a -m "sixth commit"
+
+$ git rebase -i HEAD~2..HEAD

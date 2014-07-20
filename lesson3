@@ -31,9 +31,10 @@ Remove the commit, but keeps its content:
 The changes of your third commit still keeps in workspace:
 	$ git diff
 
-Commit it again! For our next experiment:
+Commit it again! For the next experiment:
 	$ git commit -a -m "third commit"
 
-Remove the commit, even change your workspace:
+Remove the commit, and clear your workspace too:
 	$ git reset --hard HEAD~1
 	$ git diff
+
