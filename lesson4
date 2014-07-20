@@ -6,24 +6,102 @@
 Clone a bare repository:
 	$ cd /NEW/DIR1
 	$ git clone --bare /YOUR/ORIGIN/REPOSITORY
+	$ cd REPO_NAME
+	$ git log --oneline
+	=====================================================
+	4180469 lesson 3-4 commit
+	825dff6 lesson 3-3 commit
+	357a232 lesson 3-2 commit
+	db3f64c Merge branch 'master' into TEST
+	2969a41 another second commit
+	aef9a2b the second commit
+	246b60f commit title
+	=====================================================
 
 Create new repository and pull from remote:
 	$ cd /NEW/DIR2
 	$ git init
-	$ git remote add origin /NEW/DIR1
+	$ git remote add origin /NEW/DIR1/<REPO_NAME>
+	$ git remote -v
+	=====================================================
+	origin	../newAA/AA.git/ (fetch)
+	origin	../newAA/AA.git/ (push)
+	=====================================================
+
+Pull all the commit from remote repository:
 	$ git pull origin master
+	=====================================================
+	remote: Counting objects: 18, done.
+	remote: Compressing objects: 100% (9/9), done.
+	remote: Total 18 (delta 2), reused 0 (delta 0)
+	Unpacking objects: 100% (18/18), done.
+	From ../newAA/AA
+	 * branch            master     -> FETCH_HEAD
+	=====================================================
+
+Now we have all the commits from remote repository:
 	$ git log --oneline
+	=====================================================
+	4180469 lesson 3-4 commit
+	825dff6 lesson 3-3 commit
+	357a232 lesson 3-2 commit
+	db3f64c Merge branch 'master' into TEST
+	2969a41 another second commit
+	aef9a2b the second commit
+	246b60f commit title
+	=====================================================
 
 Create new commit in DIR2:
 	$ echo "git push" >> test
-	$ git commit -a -m "fourth commit"
+	$ git commit -a -m "lesson 4 commit : for push"
 	$ git log --oneline
+	=====================================================
+	2ad1a4e lesson 4 commit : for push
+	4180469 lesson 3-4 commit
+	825dff6 lesson 3-3 commit
+	357a232 lesson 3-2 commit
+	db3f64c Merge branch 'master' into TEST
+	2969a41 another second commit
+	aef9a2b the second commit
+	246b60f commit title
+	=====================================================
 
 Push it back to remote(DIR1):
 	$ git push origin master
+	=====================================================
+	Counting objects: 5, done.
+	Writing objects: 100% (3/3), 288 bytes, done.
+	Total 3 (delta 0), reused 0 (delta 0)
+	Unpacking objects: 100% (3/3), done.
+	To ../newAA/AA.git/
+	   4180469..2ad1a4e  master -> master
+	=====================================================
+
+Pull the new commit in your first git repository:
+	$ cd /YOUR/ORIGIN/REPOSITORY
+	$ git remote add origin /NEW/DIR1/<REPO_NAME>
+	$ git pull origin master
+	=====================================================
+	remote: Counting objects: 5, done.
+	remote: Total 3 (delta 0), reused 0 (delta 0)
+	Unpacking objects: 100% (3/3), done.
+	From ../newAA/AA
+	 * branch            master     -> FETCH_HEAD
+	Updating 4180469..2ad1a4e
+	Fast-forward
+	 test |    1 +
+	 1 file changed, 1 insertion(+)
+	=====================================================
 
 Go check your origin:
-	cd /YOUR/ORIGIN/REPOSITORY
-	git remote add origin /NEW/DIR1
-	git pull origin master
-	git log --oneline
+	$ git log --oneline
+	=====================================================
+	2ad1a4e lesson 4 commit : for push
+	4180469 lesson 3-4 commit
+	825dff6 lesson 3-3 commit
+	357a232 lesson 3-2 commit
+	db3f64c Merge branch 'master' into TEST
+	2969a41 another second commit
+	aef9a2b the second commit
+	246b60f commit title
+	=====================================================
