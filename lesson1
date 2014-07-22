@@ -8,6 +8,8 @@ Before any operation, you must set up your user identity.
 	$ git config --global user.email "<YOUR MAIL>"
 
 To create new repository:
+	$ mkdir <repository name>
+	$ cd <repository name>
 	$ git init
 
 To write someting:
