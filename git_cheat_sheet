@@ -1,0 +1,62 @@
+.gitignore # the matched filename will not been tracked.
+git help [command] # show the manual of git-command
+
+# config operation ---
+git config --global user.email "Your Name"
+git config --global user.name "yourname@example.com"
+
+
+# --- normal operation ---
+git init (--bare) # create an empty repository. (without workspace)
+git rm/mv [files] # do the operation and stage it.
+git add (-p) [files] # stage the content. (show an interface to ask user to select part of changed content of the file to be staged.)
+git add -u (-a) # stage the content from current directory, untracked files are not going to being staged. (also stage untracked files)
+git commit (--amend) # commit the staged content. (add the staged content to the last commit.)
+
+# --- HEAD and workspace operation ---
+git reset [files] # unstage the staged content.
+git reset --soft [commit] # change HEAD and branch to that commit, workspace unchanged. when you want to uncommit the content.
+git reset --hard [commit] # change HEAD and branch to that commit, also changes workspace. when you want to destory commits, use it with caution.
+git checkout [files] # undo the unstaged content.
+git checkout [branch] # change workspace to that branch.
+git checkout (-b [new_branch]) [commit] # change workspace to that commit, without any branch with. (create new branch on that commit.)
+
+
+# --- status operation ---
+git status # show the unstaged, staged files.
+git show [commit] # show the content of the commit. if unspecified, show the last commit.
+git log (--oneline) (--graph) [commits] # show a list of commit messages. if unspecified, show the current branch.
+git diff (--cached) # show the changed content but not staged. (show the staged content but not committed)
+git diff [commitA..commitB] # show the diff of two snapspot.
+
+# --- branch operation ---
+git branch --list (--all) # show all the local branches. (also shows remote branches.)
+git branch -d [branch] # delete the branch if it is covered by other branches.
+git branch -D [branch] # delete the branch if it is covered by other branches.
+git branch -m [old_branch] [new_branch] # rename the branch.
+git merge [branch] # merge the branch into HEAD.
+
+# --- remote operation ---
+git clone [url] ([branch]) (--bare) # clone the master branch of remote repository (clone specified branch) (without workspace)
+git remote add [repository name] [url] # add a remote repository.
+git remote rename [old_name] [new_name] # rename a remote repository.
+git remote set-url  [repository name] [newurl] # update url.
+git pull (repository name) ([remote branch]) ([local branch]) # update commits from remote repository, default is origin to current branch. actually fetch + merge.
+git push (repository name)  # push HEAD into remote repository, default is origin (push specified repository)
+git fetch [repository] # fetch remote repository to local branch
+
+
+
+
+# --- other operation ---
+git format-patch [commitA..commitB] # convert commits into files, user can send these files to maintainer to apply.
+git bundle create [file_name] --all # create a bundle with all the git history.
+git request-pull [branch] [branch] # generate text to show maintainer a pull request to mail to.
+git stash # saves uncommitted changes to stash.
+git stash list # show your stash.
+git stash apply # restore your latest stash.
+git blame [file] # show file content with commit information.
+git rebase [branch] # rebase your current branch on the specified branch.
+git rebase -i [commitA] # prompt to ask user how to decide the order of commits from commitA to HEAD, you may also squash or drop them.
+git rebase --onto commitA commitB commitC # move commits between B and C to rebase on commitA.
+
